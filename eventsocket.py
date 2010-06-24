@@ -27,6 +27,8 @@ from twisted.internet import defer, reactor, protocol
 from twisted.protocols import basic
 from twisted.python import log
 
+__all__ = ['EventError', 'AuthError', 'EventSocket', 'EventProtocol']
+
 class EventError(Exception):
     pass
 
