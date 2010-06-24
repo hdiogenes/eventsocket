@@ -35,8 +35,8 @@ class EventError(Exception):
 class AuthError(Exception):
     pass
 
-class _O(dict):
-    """Translates dictionary keys to instance attributes."""
+class Dict(dict):
+    """Allows access to dictionary keys through instance attributes."""
     def __setattr__(self, k, v):
         self[k] = v
 
@@ -47,7 +47,7 @@ class _O(dict):
         try:
             return self[k]
         except KeyError:
-            return super(_O, self).__getattribute__(k)
+            return super(Dict, self).__getattribute__(k)
 
 class EventSocket(basic.LineReceiver):
     delimiter = "\n"
@@ -92,7 +92,7 @@ class EventSocket(basic.LineReceiver):
             pass
 
     def parseEvent(self, isctx=False):
-        ev = _O()
+        ev = Dict()
         self.__io.reset()
 
         for line in self.__io:
@@ -114,11 +114,11 @@ class EventSocket(basic.LineReceiver):
         chunk = self.__io.read(int(self.__ctx.Content_Length))
         self.__io.reset()
         self.__io.truncate()
-        return _O(rawresponse=chunk)
+        return Dict(rawresponse=chunk)
 
     def dispatchEvent(self, ctx, event):
-        ctx.data = _O(event.copy())
-        reactor.callLater(0, self.eventReceived, _O(ctx.copy()))
+        ctx.data = Dict(event.copy())
+        reactor.callLater(0, self.eventReceived, Dict(ctx.copy()))
         self.__ctx = self.__rawlen = None
 
     def eventReceived(self, ctx):
@@ -135,7 +135,7 @@ class EventSocket(basic.LineReceiver):
                 self.__rawlen = int(rawlength)
                 self.setRawMode()
             else:
-                self.dispatchEvent(ctx, _O())
+                self.dispatchEvent(ctx, Dict())
 
     def rawDataReceived(self, data):
         if self.__rawlen is None:
