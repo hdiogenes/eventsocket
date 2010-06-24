@@ -1,6 +1,6 @@
-# coding: utf-8
+# -*- coding: utf-8 -*-
 #
-# Twisted protocol for the FreeSWITCH's Event Socket
+# Twisted protocol for the FreeSWITCH Event Socket
 #
 # Version: MPL 1.1
 #
@@ -14,14 +14,18 @@
 # for the specific language governing rights and limitations under the
 # License.
 
-import string
-import re, urllib
-from cStringIO import StringIO
-from twisted.python import log
-from twisted.protocols import basic
-from twisted.internet import defer, reactor, protocol
+"""
+Twisted protocol for the FreeSWITCH Event Socket.
+"""
 
-"Twisted protocol for the FreeSWITCH's Event Socket"
+from cStringIO import StringIO
+import urllib
+import string
+import re
+
+from twisted.internet import defer, reactor, protocol
+from twisted.protocols import basic
+from twisted.python import log
 
 class EventError(Exception):
     pass
