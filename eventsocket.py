@@ -14,7 +14,6 @@
 # for the specific language governing rights and limitations under the
 # License.
 
-import types
 import string
 import re, urllib
 from cStringIO import StringIO
@@ -58,14 +57,14 @@ class EventSocket(basic.LineReceiver):
         ]
 
     def send(self, cmd):
-        if isinstance(cmd, types.UnicodeType):
+        if isinstance(cmd, unicode):
             cmd = cmd.encode("utf-8")
         self.transport.write(cmd+"\n\n")
 
     def sendmsg(self, name, arg=None, uuid="", lock=False):
-        if isinstance(name, types.UnicodeType):
+        if isinstance(name, unicode):
             name = name.encode("utf-8")
-        if isinstance(arg, types.UnicodeType):
+        if isinstance(arg, unicode):
             arg = arg.encode("utf-8")
 
         self.transport.write("sendmsg %s\ncall-command: execute\n" % uuid)
